@@ -21,6 +21,7 @@
  */
 package com.fordfrog.ruian2pgsql.convertors;
 
+import com.fordfrog.ruian2pgsql.Config;
 import com.fordfrog.ruian2pgsql.containers.DetailniTEA;
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.PreparedStatementEx;
@@ -166,7 +167,9 @@ public class DetailniTEAConvertor extends AbstractSaveConvertor<DetailniTEA> {
 
     @Override
     protected void saveData(final DetailniTEA item) throws SQLException {
-        insertItem(item);
+        if (!Config.isDryRun()) {
+            insertItem(item);
+        }
     }
 
     /**

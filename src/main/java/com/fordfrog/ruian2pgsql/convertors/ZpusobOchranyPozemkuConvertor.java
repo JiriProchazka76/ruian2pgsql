@@ -21,6 +21,7 @@
  */
 package com.fordfrog.ruian2pgsql.convertors;
 
+import com.fordfrog.ruian2pgsql.Config;
 import com.fordfrog.ruian2pgsql.containers.ZpusobOchranyPozemku;
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
@@ -117,9 +118,10 @@ public class ZpusobOchranyPozemkuConvertor
     }
 
     @Override
-    protected void saveData(final ZpusobOchranyPozemku item)
-            throws SQLException {
-        insertItem(item);
+    protected void saveData(final ZpusobOchranyPozemku item) throws SQLException {
+        if (!Config.isDryRun()) {
+            insertItem(item);
+        }
     }
 
     /**

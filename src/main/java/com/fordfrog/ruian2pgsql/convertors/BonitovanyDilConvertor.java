@@ -21,6 +21,7 @@
  */
 package com.fordfrog.ruian2pgsql.convertors;
 
+import com.fordfrog.ruian2pgsql.Config;
 import com.fordfrog.ruian2pgsql.containers.BonitovanyDil;
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
@@ -117,7 +118,9 @@ public class BonitovanyDilConvertor
 
     @Override
     protected void saveData(final BonitovanyDil item) throws SQLException {
-        insertItem(item);
+        if (!Config.isDryRun()) {
+            insertItem(item);
+        }
     }
 
     /**
