@@ -96,6 +96,9 @@ ruian2pgsql is distributed under MIT license.
 [ČÚZK - Veřejný dálkový přístup](https://vdp.cuzk.cz/vdp/ruian/vymennyformat/vyhledej)
 
 ## Changelog
+## Version 1.7.2
+* Fixed an issue with dryRun for BonitovanyDil, DetailniTEA, ZpusobOchranyObjektu and ZpusobOchranyPozemku. 
+
 ## Version 1.7.1
 * Column okres_kod in table rn_obec and rn_orp can now be set to NULL. 
 
