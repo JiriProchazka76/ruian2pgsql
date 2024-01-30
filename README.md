@@ -82,6 +82,9 @@ parameters:
             database)
     --truncate-all
             removes data from all tables
+    --batch-size
+            defines the size of a batch of records forwarded through the network to the database,
+            default value 1000
 
 ## To do
 
@@ -94,6 +97,16 @@ ruian2pgsql is distributed under MIT license.
 ## Where to get RÚIAN data?
 
 [ČÚZK - Veřejný dálkový přístup](https://vdp.cuzk.cz/vdp/ruian/vymennyformat/vyhledej)
+
+## Changelog
+## Version 1.9
+* Batch processing for database inserts/updates
+* Decreases time to process file about 50%
+* use --batch-size to change size of batch, default value 1000
+
+## Changelog
+## Version 1.8.1
+* Fixed missing conversion for NespravneUdaje
 
 ## Changelog
 ## Version 1.8
