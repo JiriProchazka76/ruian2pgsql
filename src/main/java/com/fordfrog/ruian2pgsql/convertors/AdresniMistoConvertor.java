@@ -27,11 +27,12 @@ import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.PreparedStatementEx;
 import com.fordfrog.ruian2pgsql.utils.Utils;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 /**
  * Convertor for AdresniMisto element.
@@ -187,6 +188,9 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
                     case "Kod":
                         item.setKod(Integer.parseInt(reader.getElementText()));
                         break;
+                    case "NespravneUdaje":
+                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.ADR_MISTO_INT_TYPY);
+                        break;
                     case "Nespravny":
                         item.setNespravny(
                                 Boolean.valueOf(reader.getElementText()));
@@ -208,9 +212,6 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
                         break;
                     case "VOKod":
                         item.setVoKod(Integer.parseInt(reader.getElementText()));
-                        break;
-                    case "NespravneUdaje":
-                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.ADR_MISTO_INT_TYPY);
                         break;
                     default:
                         XMLUtils.processUnsupported(reader);

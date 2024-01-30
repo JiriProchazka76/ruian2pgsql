@@ -27,12 +27,13 @@ import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.PreparedStatementEx;
 import com.fordfrog.ruian2pgsql.utils.Utils;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 /**
  * Convertor for StavebniObjekt element.
@@ -298,6 +299,9 @@ public class StavebniObjektConvertor
                     case "Momc":
                         item.setMomcKod(Utils.getMomcKod(reader, NAMESPACE));
                         break;
+                    case "NespravneUdaje":
+                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.STAV_OBJ_INT_TYPY);
+                        break;
                     case "Nespravny":
                         item.setNespravny(
                                 Boolean.valueOf(reader.getElementText()));
@@ -358,9 +362,6 @@ public class StavebniObjektConvertor
                         zpusobOchranyObjektuConvertor.setStavebniObjektId(
                                 item.getKod());
                         convertorZpusobyOchranyObjektu.convert(reader);
-                        break;
-                    case "NespravneUdaje":
-                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.STAV_OBJ_INT_TYPY);
                         break;
                     default:
                         XMLUtils.processUnsupported(reader);
