@@ -162,6 +162,6 @@ public class GMLUtilsTest {
 
         final String result = GMLUtils.createGMLString(reader, null);
 
-        Assert.assertThat(result, IsEqual.equalTo(expResult));
+        Assert.assertEquals(expResult, result);
     }
 }
