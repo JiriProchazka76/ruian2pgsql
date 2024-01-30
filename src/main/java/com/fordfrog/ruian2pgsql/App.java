@@ -23,6 +23,8 @@ package com.fordfrog.ruian2pgsql;
 
 import com.fordfrog.ruian2pgsql.convertors.MainConvertor;
 import com.fordfrog.ruian2pgsql.utils.Log;
+
+import javax.xml.stream.XMLStreamException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +35,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Objects;
-import javax.xml.stream.XMLStreamException;
 
 /**
  * Main class.
@@ -106,6 +107,10 @@ public class App {
                 case "--linearize-ewkt":
                      Config.setLinearizeEWKT(true);
                      break;
+                case "--batch-size":
+                    i++;
+                    Config.setBatchSize(Integer.valueOf(args[i]));
+                    break;
                 default:
                     throw new RuntimeException(
                             "Unsupported command line switch: " + args[i]);

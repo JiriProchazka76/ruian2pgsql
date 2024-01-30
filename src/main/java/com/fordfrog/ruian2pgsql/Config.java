@@ -90,6 +90,8 @@ public class Config {
      */
     private static boolean linearizeEWKT;
 
+    private static int batchSize = 1000;
+
     /**
      * Getter for {@link #inputDirPath}.
      *
@@ -342,6 +344,14 @@ public class Config {
      */
     public static void setLinearizeEWKT(final boolean linearizeEWKT) {
         Config.linearizeEWKT = linearizeEWKT;
+    }
+
+    public static int getBatchSize() {
+        return batchSize;
+    }
+
+    public static void setBatchSize(int batchSize) {
+        Config.batchSize = batchSize;
     }
 
     /**

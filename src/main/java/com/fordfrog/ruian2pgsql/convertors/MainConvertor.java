@@ -26,6 +26,10 @@ import com.fordfrog.ruian2pgsql.gml.GMLUtils;
 import com.fordfrog.ruian2pgsql.utils.Log;
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,9 +50,6 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 /**
  * Converts RÚIAN data into PostgreSQL database.
@@ -138,7 +139,6 @@ public class MainConvertor {
 
             for (final Path file : getInputFiles(Config.getInputDirPath())) {
                 processFile(file);
-                con.commit();
             }
 
             if (Config.isCreateTables()) {
@@ -278,6 +278,9 @@ public class MainConvertor {
             } catch (final IOException ex) {
                 throw new RuntimeException("Failed to read input file", ex);
             }
+
+            exchangeFormatConvertor.finalizeBatch();
+            specialExchangeFormatConvertor.finalizeBatch();
 
             Log.write("File processed in "
                     + (System.currentTimeMillis() - startTimestamp) + " ms");

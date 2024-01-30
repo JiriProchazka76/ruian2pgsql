@@ -23,9 +23,10 @@ package com.fordfrog.ruian2pgsql.convertors;
 
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
-import java.sql.SQLException;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.sql.SQLException;
 
 /**
  * Convertor for collection of elements.
@@ -94,5 +95,10 @@ public class CollectionConvertor extends AbstractConvertor {
         } else {
             XMLUtils.processUnsupported(reader);
         }
+    }
+
+    @Override
+    public void finalizeBatch() throws SQLException {
+        convertor.finalizeBatch();
     }
 }

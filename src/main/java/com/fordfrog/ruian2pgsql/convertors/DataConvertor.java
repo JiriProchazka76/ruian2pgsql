@@ -23,10 +23,11 @@ package com.fordfrog.ruian2pgsql.convertors;
 
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
-import java.sql.Connection;
-import java.sql.SQLException;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Data convertor.
@@ -249,5 +250,30 @@ public class DataConvertor extends AbstractConvertor {
             default:
                 XMLUtils.processUnsupported(reader);
         }
+    }
+
+    @Override
+    public void finalizeBatch() throws SQLException {
+
+        convertorAdresniMista.finalizeBatch();
+        convertorCastiObci.finalizeBatch();
+        convertorKatastralniUzemi.finalizeBatch();
+        convertorKraje.finalizeBatch();
+        convertorMomc.finalizeBatch();
+        convertorMop.finalizeBatch();
+        convertorObce.finalizeBatch();
+        convertorOkresy.finalizeBatch();
+        convertorOrp.finalizeBatch();
+        convertorParcely.finalizeBatch();
+        convertorPou.finalizeBatch();
+        convertorRegionySoudrznosti.finalizeBatch();
+        convertorSpravniObvody.finalizeBatch();
+        convertorStavebniObjekty.finalizeBatch();
+        convertorStaty.finalizeBatch();
+        convertorUlice.finalizeBatch();
+        convertorVolebniOkrsek.finalizeBatch();
+        convertorVusc.finalizeBatch();
+        convertorZaniklePrvky.finalizeBatch();
+        convertorZsj.finalizeBatch();
     }
 }

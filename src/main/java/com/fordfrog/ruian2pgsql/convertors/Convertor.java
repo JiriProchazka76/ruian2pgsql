@@ -21,9 +21,9 @@
  */
 package com.fordfrog.ruian2pgsql.convertors;
 
-import java.sql.SQLException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.sql.SQLException;
 
 /**
  * Convertor interface.
@@ -44,4 +44,11 @@ public interface Convertor {
      */
     void convert(XMLStreamReader reader) throws XMLStreamException,
             SQLException;
+
+    /**
+     * Finalizes items in batch
+     *
+     * @throws SQLException
+     */
+    void finalizeBatch() throws SQLException;
 }

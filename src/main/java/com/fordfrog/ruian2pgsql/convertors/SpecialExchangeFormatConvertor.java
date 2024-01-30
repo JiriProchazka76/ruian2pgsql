@@ -23,10 +23,11 @@ package com.fordfrog.ruian2pgsql.convertors;
 
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
-import java.sql.Connection;
-import java.sql.SQLException;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Special exchange format convertor.
@@ -83,5 +84,11 @@ public class SpecialExchangeFormatConvertor extends AbstractConvertor {
             default:
                 XMLUtils.processUnsupported(reader);
         }
+    }
+
+    @Override
+    public void finalizeBatch() throws SQLException {
+        dataConvertor.finalizeBatch();
+        hlavickaConvertor.finalizeBatch();
     }
 }

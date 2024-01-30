@@ -23,12 +23,13 @@ package com.fordfrog.ruian2pgsql.convertors;
 
 import com.fordfrog.ruian2pgsql.Config;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 /**
  * Abstract implementation of Convertor with support for saving item data.
@@ -67,6 +68,8 @@ public abstract class AbstractSaveConvertor<T> implements Convertor {
      * Prepared statement for update of existing item.
      */
     private final PreparedStatement pstmUpdate;
+    private int insertCounter;
+    private int updateCounter;
 
     /**
      * Creates new instance of AbstractSaveConvertor.
@@ -129,6 +132,14 @@ public abstract class AbstractSaveConvertor<T> implements Convertor {
      */
     public Connection getConnection() {
         return connection;
+    }
+
+    public void finalizeBatch() throws SQLException {
+
+        processInsertBatch();
+        processUpdateBatch();
+
+        connection.commit();
     }
 
     /**
@@ -279,9 +290,24 @@ public abstract class AbstractSaveConvertor<T> implements Convertor {
      *                      database.
      */
     protected void insertItem(final T item) throws SQLException {
+
         pstmInsert.clearParameters();
         fill(pstmInsert, item, false);
-        pstmInsert.execute();
+        pstmInsert.addBatch();
+        insertCounter++;
+
+        if (Config.getBatchSize() == insertCounter) {
+            processInsertBatch();
+        }
+    }
+
+    private void processInsertBatch() throws  SQLException {
+
+        insertCounter = 0;
+        if (pstmInsert != null) {
+            pstmInsert.executeBatch();
+            //connection.commit();
+        }
     }
 
     /**
@@ -294,9 +320,24 @@ public abstract class AbstractSaveConvertor<T> implements Convertor {
      * @throws SQLException
      */
     protected void updateItem(final T item) throws SQLException {
+
         pstmUpdate.clearParameters();
         fill(pstmUpdate, item, true);
-        pstmUpdate.execute();
+        pstmUpdate.addBatch();
+        updateCounter++;
+
+        if (Config.getBatchSize() == updateCounter) {
+            processUpdateBatch();
+        }
+    }
+
+    private void processUpdateBatch() throws  SQLException {
+
+        updateCounter = 0;
+        if (pstmUpdate != null) {
+            pstmUpdate.executeBatch();
+            //connection.commit();
+        }
     }
 
     /**
