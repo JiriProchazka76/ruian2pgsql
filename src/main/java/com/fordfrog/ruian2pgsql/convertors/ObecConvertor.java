@@ -27,11 +27,12 @@ import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.PreparedStatementEx;
 import com.fordfrog.ruian2pgsql.utils.Utils;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 /**
  * Convertor for Obec element.
@@ -215,6 +216,9 @@ public class ObecConvertor extends AbstractSaveConvertor<Obec> {
                         break;
                     case "Nazev":
                         item.setNazev(reader.getElementText());
+                        break;
+                    case "NespravneUdaje":
+                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.OBEC_INT_TYPY);
                         break;
                     case "Nespravny":
                         item.setNespravny(

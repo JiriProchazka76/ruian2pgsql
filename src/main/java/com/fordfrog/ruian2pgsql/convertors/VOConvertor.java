@@ -27,17 +27,19 @@ import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.PreparedStatementEx;
 import com.fordfrog.ruian2pgsql.utils.Utils;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 
 /**
  * Convertor for VolebniOkrsek element.
  *
  * @author fordfrog
- */;
+ */
+;
 public class VOConvertor extends AbstractSaveConvertor<VolebniOkrsek> {
 
     /**
@@ -165,6 +167,9 @@ public class VOConvertor extends AbstractSaveConvertor<VolebniOkrsek> {
                         break;
                     case "Cislo":
                         item.setCislo(Integer.parseInt(reader.getElementText()));
+                        break;
+                    case "NespravneUdaje":
+                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.VOLEBNI_OKRSEK_INT_TYPY);
                         break;
                     case "Nespravny":
                         item.setNespravny(
