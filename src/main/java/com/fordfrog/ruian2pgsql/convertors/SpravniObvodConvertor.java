@@ -54,16 +54,18 @@ public class SpravniObvodConvertor extends AbstractSaveConvertor<SpravniObvod> {
      */
     private static final String SQL_INSERT = "INSERT INTO rn_spravni_obvod "
             + "(nazev, nespravny, obec_kod, spravni_momc_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "plati_od, nz_id_globalni, zmena_grafiky, definicni_bod, "
-            + "hranice, kod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
+            + "hranice, kod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
             + "%FUNCTION%(?), ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE = "UPDATE rn_spravni_obvod "
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, "
-            + "spravni_momc_kod = ?, id_trans_ruian = ?, plati_od = ?, "
-            + "nz_id_globalni = ?, zmena_grafiky = ?, "
+            + "spravni_momc_kod = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, nz_id_globalni = ?, zmena_grafiky = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?), "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -73,15 +75,17 @@ public class SpravniObvodConvertor extends AbstractSaveConvertor<SpravniObvod> {
     private static final String SQL_INSERT_NO_GIS =
             "INSERT INTO rn_spravni_obvod "
             + "(nazev, nespravny, obec_kod, spravni_momc_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "plati_od, nz_id_globalni, zmena_grafiky, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE_NO_GIS = "UPDATE rn_spravni_obvod "
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, "
-            + "spravni_momc_kod = ?, id_trans_ruian = ?, plati_od = ?, "
-            + "nz_id_globalni = ?, zmena_grafiky = ?, "
+            + "spravni_momc_kod = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, nz_id_globalni = ?, zmena_grafiky = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
 
@@ -110,6 +114,9 @@ public class SpravniObvodConvertor extends AbstractSaveConvertor<SpravniObvod> {
         pstm.setInt(index++, item.getObecKod());
         pstm.setInt(index++, item.getSpravniMomcKod());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstm.setLong(index++, item.getNzIdGlobalni());
         pstmEx.setBoolean(index++, item.getZmenaGrafiky());

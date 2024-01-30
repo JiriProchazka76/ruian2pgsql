@@ -55,9 +55,11 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
     private static final String SQL_INSERT = "INSERT INTO rn_adresni_misto "
             + "(nespravny, adrp_psc, ulice_kod, vo_kod, stavobj_kod, cislo_domovni, "
             + "cislo_orientacni_hodnota, cislo_orientacni_pismeno, "
-            + "id_trans_ruian, plati_od, zmena_grafiky, nz_id_globalni, "
+            + "id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "plati_od, zmena_grafiky, nz_id_globalni, "
             + "definicni_bod, zachranka, hasici, kod) "
-            + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, %FUNCTION%(?), "
+            + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, %FUNCTION%(?), "
             + "%FUNCTION%(?), %FUNCTION%(?), ?)";
     /**
      * SQL statement for update of existing item.
@@ -66,7 +68,9 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
             + "SET nespravny = ?, adrp_psc = ?, ulice_kod = ?, vo_kod = ?, "
             + "stavobj_kod = ?, cislo_domovni = ?, "
             + "cislo_orientacni_hodnota = ?, cislo_orientacni_pismeno = ?, "
-            + "id_trans_ruian = ?, plati_od = ?, zmena_grafiky = ?, "
+            + "id_trans_ruian = ?,"
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, zmena_grafiky = ?, "
             + "nz_id_globalni = ?, definicni_bod = %FUNCTION%(?), "
             + "zachranka = %FUNCTION%(?), hasici = %FUNCTION%(?), "
             + "item_timestamp = timezone('utc', now()), deleted = false "
@@ -78,8 +82,10 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
             "INSERT INTO rn_adresni_misto "
             + "(nespravny, adrp_psc, ulice_kod, vo_kod, stavobj_kod, cislo_domovni, "
             + "cislo_orientacni_hodnota, cislo_orientacni_pismeno, "
-            + "id_trans_ruian, plati_od, zmena_grafiky, nz_id_globalni, kod) "
-            + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "plati_od, zmena_grafiky, nz_id_globalni, kod) "
+            + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
@@ -87,7 +93,9 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
             + "SET nespravny = ?, adrp_psc = ?, ulice_kod = ?, vo_kod = ?, "
             + "stavobj_kod = ?, cislo_domovni = ?, "
             + "cislo_orientacni_hodnota = ?, cislo_orientacni_pismeno = ?, "
-            + "id_trans_ruian = ?, plati_od = ?, zmena_grafiky = ?, "
+            + "id_trans_ruian = ?,"
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, zmena_grafiky = ?, "
             + "nz_id_globalni = ?, item_timestamp = timezone('utc', now()), "
             + "deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -121,6 +129,9 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
         pstmEx.setInt(index++, item.getCisloOrientacniHodnota());
         pstm.setString(index++, item.getCisloOrientacniPismeno());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstmEx.setBoolean(index++, item.getZmenaGrafiky());
         pstm.setLong(index++, item.getNzIdGlobalni());
@@ -197,6 +208,9 @@ public class AdresniMistoConvertor extends AbstractSaveConvertor<AdresniMisto> {
                         break;
                     case "VOKod":
                         item.setVoKod(Integer.parseInt(reader.getElementText()));
+                        break;
+                    case "NespravneUdaje":
+                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.ADR_MISTO_INT_TYPY);
                         break;
                     default:
                         XMLUtils.processUnsupported(reader);

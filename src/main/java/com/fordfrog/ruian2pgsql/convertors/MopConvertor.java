@@ -53,14 +53,16 @@ public class MopConvertor extends AbstractSaveConvertor<Mop> {
      * SQL statement for insertion of new item.
      */
     private static final String SQL_INSERT = "INSERT INTO rn_mop "
-            + "(nazev, nespravny, obec_kod, id_trans_ruian, plati_od, "
+            + "(nazev, nespravny, obec_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, plati_od, "
             + "nz_id_globalni, zmena_grafiky, definicni_bod, hranice, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE = "UPDATE rn_mop "
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
             + "plati_od = ?, nz_id_globalni = ?, zmena_grafiky = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?), datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
@@ -69,14 +71,16 @@ public class MopConvertor extends AbstractSaveConvertor<Mop> {
      * SQL statement for insertion of new item.
      */
     private static final String SQL_INSERT_NO_GIS = "INSERT INTO rn_mop "
-            + "(nazev, nespravny, obec_kod, id_trans_ruian, plati_od, "
+            + "(nazev, nespravny, obec_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, plati_od, "
             + "nz_id_globalni, zmena_grafiky, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE_NO_GIS = "UPDATE rn_mop "
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
             + "plati_od = ?, nz_id_globalni = ?, zmena_grafiky = ?, datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -104,6 +108,9 @@ public class MopConvertor extends AbstractSaveConvertor<Mop> {
         pstmEx.setBoolean(index++, item.getNespravny());
         pstm.setInt(index++, item.getObecKod());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstm.setLong(index++, item.getNzIdGlobalni());
         pstmEx.setBoolean(index++, item.getZmenaGrafiky());

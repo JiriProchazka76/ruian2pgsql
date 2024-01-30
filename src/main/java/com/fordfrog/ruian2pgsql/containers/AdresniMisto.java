@@ -28,7 +28,7 @@ import java.util.Date;
  *
  * @author fordfrog
  */
-public class AdresniMisto implements ItemWithDefinicniBod, ItemWithEmergency {
+public class AdresniMisto implements ItemWithDefinicniBod, ItemWithEmergency, ItemWithNespravneUdaje {
 
     private Integer kod;
     private Boolean nespravny;
@@ -46,6 +46,9 @@ public class AdresniMisto implements ItemWithDefinicniBod, ItemWithEmergency {
     private String definicniBod;
     private String zachranka;
     private String hasici;
+    private String nazevUdaje;
+    private Date oznacenoDne;
+    private String oznacenoInfo;
 
     public Integer getKod() {
         return kod;
@@ -184,4 +187,30 @@ public class AdresniMisto implements ItemWithDefinicniBod, ItemWithEmergency {
         this.hasici = hasici;
     }
 
+    @Override
+    public String getNazevUdaje() {
+        return nazevUdaje;
+    }
+
+    public void setNazevUdaje(String nazevUdaje) {
+        this.nazevUdaje = nazevUdaje;
+    }
+
+    @Override
+    public Date getOznacenoDne() {
+        return oznacenoDne;
+    }
+
+    public void setOznacenoDne(Date oznacenoDne) {
+        this.oznacenoDne = oznacenoDne;
+    }
+
+    @Override
+    public String getOznacenoInfo() {
+        return oznacenoInfo;
+    }
+
+    public void setOznacenoInfo(String oznacenoInfo) {
+        this.oznacenoInfo = oznacenoInfo;
+    }
 }

@@ -53,14 +53,17 @@ public class StatConvertor extends AbstractSaveConvertor<Stat> {
      * SQL statement for insertion of the item.
      */
     private static final String SQL_INSERT = "INSERT INTO rn_stat "
-            + "(nazev, nespravny, id_trans_ruian, nuts_lau, plati_od, "
+            + "(nazev, nespravny, id_trans_ruian, nazev_udaje, "
+            + "oznaceno_dne, oznaceno_info, nuts_lau, plati_od, "
             + "nz_id_globalni, zmena_grafiky, definicni_bod, hranice, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?, ?)";
     /**
      * SQL statement for update of the item.
      */
     private static final String SQL_UPDATE = "UPDATE rn_stat "
-            + "SET nazev = ?, nespravny = ?, id_trans_ruian = ?, nuts_lau = ?, "
+            + "SET nazev = ?, nespravny = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "nuts_lau = ?, "
             + "plati_od = ?, nz_id_globalni = ?, zmena_grafiky = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?), datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
@@ -69,14 +72,17 @@ public class StatConvertor extends AbstractSaveConvertor<Stat> {
      * SQL statement for insertion of the item.
      */
     private static final String SQL_INSERT_NO_GIS = "INSERT INTO rn_stat "
-            + "(nazev, nespravny, id_trans_ruian, nuts_lau, plati_od, "
+            + "(nazev, nespravny, id_trans_ruian, nazev_udaje, oznaceno_dne, "
+            + "oznaceno_info, nuts_lau, plati_od, "
             + "nz_id_globalni, zmena_grafiky, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of the item.
      */
     private static final String SQL_UPDATE_NO_GIS = "UPDATE rn_stat "
-            + "SET nazev = ?, nespravny = ?, id_trans_ruian = ?, nuts_lau = ?, "
+            + "SET nazev = ?, nespravny = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "nuts_lau = ?, "
             + "plati_od = ?, nz_id_globalni = ?, zmena_grafiky = ?, datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -104,6 +110,9 @@ public class StatConvertor extends AbstractSaveConvertor<Stat> {
         pstm.setString(index++, item.getNazev());
         pstmEx.setBoolean(index++, item.getNespravny());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstm.setString(index++, item.getNutsLau());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstm.setLong(index++, item.getNzIdGlobalni());
@@ -166,6 +175,9 @@ public class StatConvertor extends AbstractSaveConvertor<Stat> {
                     case "PlatiOd":
                         item.setPlatiOd(
                                 Utils.parseTimestamp(reader.getElementText()));
+                        break;
+                    case "NespravneUdaje":
+                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.STAT_INT_TYPY);
                         break;
                     default:
                         XMLUtils.processUnsupported(reader);

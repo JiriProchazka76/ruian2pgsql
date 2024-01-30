@@ -57,8 +57,9 @@ public class ZsjConvertor extends AbstractSaveConvertor<Zsj> {
             + "mluv_char_pad_2, mluv_char_pad_3, mluv_char_pad_4, "
             + "mluv_char_pad_5, mluv_char_pad_6, mluv_char_pad_7, "
             + "vymera, plati_od, zmena_grafiky, nz_id_globalni, "
-            + "id_trans_ruian, definicni_bod, hranice, datum_vzniku, kod) VALUES (?, ?, ?, "
-            + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
+            + "id_trans_ruian, nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "definicni_bod, hranice, datum_vzniku, kod)"
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
             + "%FUNCTION%(?), ?, ?)";
     /**
      * SQL statement for update of existing item.
@@ -69,7 +70,9 @@ public class ZsjConvertor extends AbstractSaveConvertor<Zsj> {
             + "mluv_char_pad_3 = ?, mluv_char_pad_4 = ?, mluv_char_pad_5 = ?, "
             + "mluv_char_pad_6 = ?, mluv_char_pad_7 = ?, vymera = ?, "
             + "plati_od = ?, zmena_grafiky = ?, nz_id_globalni = ?, "
-            + "id_trans_ruian = ?, definicni_bod = %FUNCTION%(?), "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "definicni_bod = %FUNCTION%(?), "
             + "hranice = %FUNCTION%(?), datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -81,8 +84,9 @@ public class ZsjConvertor extends AbstractSaveConvertor<Zsj> {
             + "mluv_char_pad_2, mluv_char_pad_3, mluv_char_pad_4, "
             + "mluv_char_pad_5, mluv_char_pad_6, mluv_char_pad_7, "
             + "vymera, plati_od, zmena_grafiky, nz_id_globalni, "
-            + "id_trans_ruian, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "id_trans_ruian, nazev_udaje, oznaceno_dne, "
+            + "oznaceno_info, datum_vzniku, kod) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
@@ -92,7 +96,8 @@ public class ZsjConvertor extends AbstractSaveConvertor<Zsj> {
             + "mluv_char_pad_3 = ?, mluv_char_pad_4 = ?, mluv_char_pad_5 = ?, "
             + "mluv_char_pad_6 = ?, mluv_char_pad_7 = ?, vymera = ?, "
             + "plati_od = ?, zmena_grafiky = ?, nz_id_globalni = ?, "
-            + "id_trans_ruian = ?, datum_vzniku = ?, item_timestamp = timezone('utc', now()), "
+            + "id_trans_ruian = ?, nazev_udaje = ?, oznaceno_dne = ?, "
+            + "oznaceno_info = ?, datum_vzniku = ?, item_timestamp = timezone('utc', now()), "
             + "deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
 
@@ -130,6 +135,9 @@ public class ZsjConvertor extends AbstractSaveConvertor<Zsj> {
         pstmEx.setBoolean(index++, item.getZmenaGrafiky());
         pstm.setLong(index++, item.getNzIdGlobalni());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
 
         if (!Config.isNoGis()) {
             pstm.setString(index++, item.getDefinicniBod());

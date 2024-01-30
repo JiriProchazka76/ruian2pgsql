@@ -28,7 +28,7 @@ import java.util.Date;
  *
  * @author fordfrog
  */
-public class Parcela implements ItemWithDefinicniBod, ItemWithHranice {
+public class Parcela implements ItemWithDefinicniBod, ItemWithHranice, ItemWithNespravneUdaje {
 
     private Long id;
     private Boolean nespravny;
@@ -44,6 +44,9 @@ public class Parcela implements ItemWithDefinicniBod, ItemWithHranice {
     private Date platiOd;
     private String definicniBod;
     private String hranice;
+    private String nazevUdaje;
+    private Date oznacenoDne;
+    private String oznacenoInfo;
 
     public Long getId() {
         return id;
@@ -161,5 +164,32 @@ public class Parcela implements ItemWithDefinicniBod, ItemWithHranice {
     @Override
     public void setHranice(final String hranice) {
         this.hranice = hranice;
+    }
+
+    @Override
+    public String getNazevUdaje() {
+        return nazevUdaje;
+    }
+
+    public void setNazevUdaje(String nazevUdaje) {
+        this.nazevUdaje = nazevUdaje;
+    }
+
+    @Override
+    public Date getOznacenoDne() {
+        return oznacenoDne;
+    }
+
+    public void setOznacenoDne(Date oznacenoDne) {
+        this.oznacenoDne = oznacenoDne;
+    }
+
+    @Override
+    public String getOznacenoInfo() {
+        return oznacenoInfo;
+    }
+
+    public void setOznacenoInfo(String oznacenoInfo) {
+        this.oznacenoInfo = oznacenoInfo;
     }
 }

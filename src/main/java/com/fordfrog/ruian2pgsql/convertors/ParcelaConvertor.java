@@ -55,8 +55,9 @@ public class ParcelaConvertor extends AbstractSaveConvertor<Parcela> {
     private static final String SQL_INSERT = "INSERT INTO rn_parcela "
             + "(nespravny, katuz_kod, druh_pozemku_kod, druh_cislovani_kod, "
             + "kmenove_cislo, poddeleni_cisla, vymera_parcely, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "zpusob_vyu_poz_kod, rizeni_id, plati_od, definicni_bod, "
-            + "hranice, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+            + "hranice, id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
             + "%FUNCTION%(?), %FUNCTION%(?), ?)";
     /**
      * SQL statement for update of existing item.
@@ -65,6 +66,7 @@ public class ParcelaConvertor extends AbstractSaveConvertor<Parcela> {
             + "SET nespravny = ?, katuz_kod = ?, druh_pozemku_kod = ?, "
             + "druh_cislovani_kod = ?, kmenove_cislo = ?, poddeleni_cisla = ?, "
             + "vymera_parcely = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
             + "zpusob_vyu_poz_kod = ?, rizeni_id = ?, plati_od = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?), "
             + "item_timestamp = timezone('utc', now()), deleted = false "
@@ -75,8 +77,9 @@ public class ParcelaConvertor extends AbstractSaveConvertor<Parcela> {
     private static final String SQL_INSERT_NO_GIS = "INSERT INTO rn_parcela "
             + "(nespravny, katuz_kod, druh_pozemku_kod, druh_cislovani_kod, "
             + "kmenove_cislo, poddeleni_cisla, vymera_parcely, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "zpusob_vyu_poz_kod, rizeni_id, plati_od, id) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
@@ -84,6 +87,7 @@ public class ParcelaConvertor extends AbstractSaveConvertor<Parcela> {
             + "SET nespravny = ?, katuz_kod = ?, druh_pozemku_kod = ?, "
             + "druh_cislovani_kod = ?, kmenove_cislo = ?, poddeleni_cisla = ?, "
             + "vymera_parcely = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
             + "zpusob_vyu_poz_kod = ?, rizeni_id = ?, plati_od = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE id = ? AND id_trans_ruian <= ?";
@@ -167,6 +171,9 @@ public class ParcelaConvertor extends AbstractSaveConvertor<Parcela> {
         pstmEx.setInt(index++, item.getPoddeleniCisla());
         pstm.setLong(index++, item.getVymeraParcely());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setInt(index++, item.getZpusobVyuPozKod());
         pstm.setLong(index++, item.getRizeniId());
         pstmEx.setDate(index++, item.getPlatiOd());

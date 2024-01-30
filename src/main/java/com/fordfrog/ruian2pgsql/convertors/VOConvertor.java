@@ -54,14 +54,15 @@ public class VOConvertor extends AbstractSaveConvertor<VolebniOkrsek> {
      */
     private static final String SQL_INSERT = "INSERT INTO rn_vo "
             + "(cislo, nespravny, momc_kod, obec_kod, poznamka, plati_od, plati_do, nz_id_globalni, "
-            + "id_trans_ruian, definicni_bod, hranice, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?)";
+            + "id_trans_ruian, nazev_udaje, oznaceno_dne, oznaceno_info, definicni_bod, hranice, kod) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE = "UPDATE rn_vo "
             + "SET cislo = ?, nespravny = ?, momc_kod = ?,"
             + "obec_kod = ?, poznamka = ?, plati_od = ?, plati_do = ?, nz_id_globalni = ?, id_trans_ruian = ?,"
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?),"
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -70,14 +71,15 @@ public class VOConvertor extends AbstractSaveConvertor<VolebniOkrsek> {
      */
     private static final String SQL_INSERT_NO_GIS = "INSERT INTO rn_vo "
             + "(cislo, nespravny, momc_kod = ?, obec_kod, poznamka, plati_od, plati_do, nz_id_globalni, "
-            + "id_trans_ruian,kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "id_trans_ruian, nazev_udaje, oznaceno_dne, oznaceno_info, kod) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE_NO_GIS = "UPDATE rn_vo "
             + "SET cislo = ?, nespravny = ?, momc_kod = ?,"
             + "obec_kod = ?, poznamka = ?, plati_od = ?, plati_do = ?, nz_id_globalni = ?, id_trans_ruian = ?,"
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
 
@@ -110,6 +112,9 @@ public class VOConvertor extends AbstractSaveConvertor<VolebniOkrsek> {
         pstmEx.setDate(index++, item.getPlatiDo());
         pstm.setLong(index++, item.getNzIdGlobalni());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
 
         if (!Config.isNoGis()) {
             pstm.setString(index++, item.getDefinicniBod());

@@ -27,6 +27,7 @@ import com.fordfrog.ruian2pgsql.containers.ItemWithDefinicniCara;
 import com.fordfrog.ruian2pgsql.containers.ItemWithEmergency;
 import com.fordfrog.ruian2pgsql.containers.ItemWithHranice;
 import com.fordfrog.ruian2pgsql.containers.ItemWithMluvCharPad;
+import com.fordfrog.ruian2pgsql.containers.ItemWithNespravneUdaje;
 import com.fordfrog.ruian2pgsql.gml.GMLParser;
 import com.fordfrog.ruian2pgsql.gml.GMLReader;
 import java.sql.Connection;
@@ -672,6 +673,66 @@ public class Utils {
                 break;
             default:
                 XMLUtils.processUnsupported(reader);
+        }
+    }
+
+    public static void processNespravneUdaje(final XMLStreamReader reader,
+                                        final Connection con, final ItemWithNespravneUdaje item, final String namespace)
+            throws XMLStreamException {
+
+        while (reader.hasNext()) {
+            final int event = reader.next();
+
+            switch (event) {
+                case XMLStreamReader.START_ELEMENT:
+                    processNespravnyUdajElement(reader, con, item, Namespaces.COMMON_TYPY);
+                    break;
+                case XMLStreamReader.END_ELEMENT:
+                    if (XMLUtils.isSameElement(
+                            namespace, "NespravneUdaje", reader)) {
+                        return;
+                    }
+            }
+        }
+    }
+
+    public static void processNespravnyUdajElement(final XMLStreamReader reader,
+                                        final Connection con, final ItemWithNespravneUdaje item, final String namespace)
+            throws XMLStreamException {
+
+        while (reader.hasNext()) {
+            final int event = reader.next();
+
+            switch (event) {
+                case XMLStreamReader.START_ELEMENT:
+                    processNespravneUdajeElement(reader, con, item, namespace);
+                    break;
+                case XMLStreamReader.END_ELEMENT:
+                    if (XMLUtils.isSameElement(
+                            namespace, "NespravnyUdaj", reader)) {
+                        return;
+                    }
+            }
+        }
+    }
+
+    private static void processNespravneUdajeElement(final XMLStreamReader reader,
+                                                     final Connection con, final ItemWithNespravneUdaje item, final String namespace)
+            throws XMLStreamException {
+        if (namespace.equals(reader.getNamespaceURI())) {
+            final String localName = reader.getLocalName();
+
+            if ("NazevUdaje".equals(localName)) {
+                item.setNazevUdaje(reader.getElementText());
+            } else if ("OznacenoDne".equals(localName)) {
+                item.setOznacenoDne(Utils.parseTimestamp(reader.getElementText()));
+            } else if ("OznacenoInfo".equals(localName)) {
+                item.setOznacenoInfo(reader.getElementText());
+            } else {
+                XMLUtils.processUnsupported(reader);
+            }
+        } else {
+            XMLUtils.processUnsupported(reader);
         }
     }
 

@@ -28,8 +28,7 @@ import java.util.Date;
  *
  * @author fordfrog
  */
-public class CastObce implements ItemWithDefinicniBod, ItemWithHranice,
-        ItemWithMluvCharPad {
+public class CastObce implements ItemWithDefinicniBod, ItemWithHranice, ItemWithMluvCharPad, ItemWithNespravneUdaje {
 
     private Integer kod;
     private String nazev;
@@ -48,6 +47,9 @@ public class CastObce implements ItemWithDefinicniBod, ItemWithHranice,
     private String definicniBod;
     private String hranice;
     private Date datumVzniku;
+    private String nazevUdaje;
+    private Date oznacenoDne;
+    private String oznacenoInfo;
 
     public Integer getKod() {
         return kod;
@@ -201,5 +203,32 @@ public class CastObce implements ItemWithDefinicniBod, ItemWithHranice,
 
     public void setDatumVzniku(final Date datumVzniku) {
         this.datumVzniku = datumVzniku;
+    }
+
+    @Override
+    public String getNazevUdaje() {
+        return nazevUdaje;
+    }
+
+    public void setNazevUdaje(String nazevUdaje) {
+        this.nazevUdaje = nazevUdaje;
+    }
+
+    @Override
+    public Date getOznacenoDne() {
+        return oznacenoDne;
+    }
+
+    public void setOznacenoDne(Date oznacenoDne) {
+        this.oznacenoDne = oznacenoDne;
+    }
+
+    @Override
+    public String getOznacenoInfo() {
+        return oznacenoInfo;
+    }
+
+    public void setOznacenoInfo(String oznacenoInfo) {
+        this.oznacenoInfo = oznacenoInfo;
     }
 }

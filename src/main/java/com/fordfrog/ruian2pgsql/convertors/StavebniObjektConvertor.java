@@ -62,9 +62,10 @@ public class StavebniObjektConvertor
             + "podlahova_plocha, pripoj_el_energie, pripoj_kanal_sit_kod, "
             + "pripoj_plyn_kod, pripoj_vodovod_kod, typ_kod, zastavena_plocha, "
             + "zpusob_vytapeni_kod, zpusob_vyuziti_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "plati_od, nz_id_globalni, definicni_bod, hranice, kod) "
             + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-            + "?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?)";
+            + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), %FUNCTION%(?), ?)";
     /**
      * SQL statement for update of existing item.
      */
@@ -77,7 +78,9 @@ public class StavebniObjektConvertor
             + "pripoj_kanal_sit_kod = ?, pripoj_plyn_kod = ?, "
             + "pripoj_vodovod_kod = ?, typ_kod = ?, zastavena_plocha = ?, "
             + "zpusob_vytapeni_kod = ?, zpusob_vyuziti_kod = ?, "
-            + "id_trans_ruian = ?, plati_od = ?, nz_id_globalni = ?, "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, nz_id_globalni = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?), "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -93,9 +96,10 @@ public class StavebniObjektConvertor
             + "podlahova_plocha, pripoj_el_energie, pripoj_kanal_sit_kod, "
             + "pripoj_plyn_kod, pripoj_vodovod_kod, typ_kod, zastavena_plocha, "
             + "zpusob_vytapeni_kod, zpusob_vyuziti_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "plati_od, nz_id_globalni, kod) "
             + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-            + "?, ?, ?, ?, ?, ?, ?, ?)";
+            + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
@@ -109,7 +113,9 @@ public class StavebniObjektConvertor
             + "pripoj_kanal_sit_kod = ?, pripoj_plyn_kod = ?, "
             + "pripoj_vodovod_kod = ?, typ_kod = ?, zastavena_plocha = ?, "
             + "zpusob_vytapeni_kod = ?, zpusob_vyuziti_kod = ?, "
-            + "id_trans_ruian = ?, plati_od = ?, nz_id_globalni = ?, "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, nz_id_globalni = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
     /**
@@ -213,6 +219,9 @@ public class StavebniObjektConvertor
         pstmEx.setInt(index++, item.getZpusobVytapeniKod());
         pstmEx.setInt(index++, item.getZpusobVyuzitiKod());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstm.setLong(index++, item.getNzIdGlobalni());
 
@@ -349,6 +358,9 @@ public class StavebniObjektConvertor
                         zpusobOchranyObjektuConvertor.setStavebniObjektId(
                                 item.getKod());
                         convertorZpusobyOchranyObjektu.convert(reader);
+                        break;
+                    case "NespravneUdaje":
+                        Utils.processNespravneUdaje(reader, getConnection(), item, Namespaces.STAV_OBJ_INT_TYPY);
                         break;
                     default:
                         XMLUtils.processUnsupported(reader);

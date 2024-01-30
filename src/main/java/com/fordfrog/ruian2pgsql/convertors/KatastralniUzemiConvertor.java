@@ -56,9 +56,11 @@ public class KatastralniUzemiConvertor
     private static final String SQL_INSERT = "INSERT INTO rn_katastralni_uzemi "
             + "(nazev, nespravny, obec_kod, ma_dkm, mluv_char_pad_2, "
             + "mluv_char_pad_3, mluv_char_pad_4, mluv_char_pad_5, "
-            + "mluv_char_pad_6, mluv_char_pad_7, id_trans_ruian, plati_od, "
+            + "mluv_char_pad_6, mluv_char_pad_7, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "plati_od, "
             + "nz_id_globalni, rizeni_id, definicni_bod, hranice, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
             + "%FUNCTION%(?), %FUNCTION%(?), ?, ?)";
     /**
      * SQL statement for updating of existing item.
@@ -67,7 +69,9 @@ public class KatastralniUzemiConvertor
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, ma_dkm = ?, "
             + "mluv_char_pad_2 = ?, mluv_char_pad_3 = ?, mluv_char_pad_4 = ?, "
             + "mluv_char_pad_5 = ?, mluv_char_pad_6 = ?, mluv_char_pad_7 = ?, "
-            + "id_trans_ruian = ?, plati_od = ?, nz_id_globalni = ?, "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, nz_id_globalni = ?, "
             + "rizeni_id = ?, definicni_bod = %FUNCTION%(?), "
             + "hranice = %FUNCTION%(?), datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
@@ -79,9 +83,11 @@ public class KatastralniUzemiConvertor
             "INSERT INTO rn_katastralni_uzemi "
             + "(nazev, nespravny, obec_kod, ma_dkm, mluv_char_pad_2, "
             + "mluv_char_pad_3, mluv_char_pad_4, mluv_char_pad_5, "
-            + "mluv_char_pad_6, mluv_char_pad_7, id_trans_ruian, plati_od, "
+            + "mluv_char_pad_6, mluv_char_pad_7, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "plati_od, "
             + "nz_id_globalni, rizeni_id, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for updating of existing item.
      */
@@ -90,7 +96,9 @@ public class KatastralniUzemiConvertor
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, ma_dkm = ?, "
             + "mluv_char_pad_2 = ?, mluv_char_pad_3 = ?, mluv_char_pad_4 = ?, "
             + "mluv_char_pad_5 = ?, mluv_char_pad_6 = ?, mluv_char_pad_7 = ?, "
-            + "id_trans_ruian = ?, plati_od = ?, nz_id_globalni = ?, "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, nz_id_globalni = ?, "
             + "rizeni_id = ?, datum_vzniku = ?, item_timestamp = timezone('utc', now()), "
             + "deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -127,6 +135,9 @@ public class KatastralniUzemiConvertor
         pstm.setString(index++, item.getMluvCharPad6());
         pstm.setString(index++, item.getMluvCharPad7());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstm.setLong(index++, item.getNzIdGlobalni());
         pstmEx.setLong(index++, item.getRizeniId());

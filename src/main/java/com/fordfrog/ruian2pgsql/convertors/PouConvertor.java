@@ -54,15 +54,18 @@ public class PouConvertor extends AbstractSaveConvertor<Pou> {
      */
     private static final String SQL_INSERT = "INSERT INTO rn_pou "
             + "(nazev, nespravny, orp_kod, spravni_obec_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "plati_od, nz_id_globalni, zmena_grafiky, definicni_bod, "
-            + "hranice, datum_vzniku, kod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
+            + "hranice, datum_vzniku, kod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
             + "%FUNCTION%(?), ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE = "UPDATE rn_pou "
             + "SET nazev = ?, nespravny = ?, orp_kod = ?, "
-            + "spravni_obec_kod = ?, id_trans_ruian = ?, plati_od = ?, "
+            + "spravni_obec_kod = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, "
             + "nz_id_globalni = ?, zmena_grafiky = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?), datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
@@ -72,14 +75,17 @@ public class PouConvertor extends AbstractSaveConvertor<Pou> {
      */
     private static final String SQL_INSERT_NO_GIS = "INSERT INTO rn_pou "
             + "(nazev, nespravny, orp_kod, spravni_obec_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
             + "plati_od, nz_id_globalni, zmena_grafiky, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE_NO_GIS = "UPDATE rn_pou "
             + "SET nazev = ?, nespravny = ?, orp_kod = ?, "
-            + "spravni_obec_kod = ?, id_trans_ruian = ?, plati_od = ?, "
+            + "spravni_obec_kod = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "plati_od = ?, "
             + "nz_id_globalni = ?, zmena_grafiky = ?, datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -108,6 +114,9 @@ public class PouConvertor extends AbstractSaveConvertor<Pou> {
         pstm.setInt(index++, item.getOrpKod());
         pstm.setInt(index++, item.getSpravniObecKod());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstm.setLong(index++, item.getNzIdGlobalni());
         pstmEx.setBoolean(index++, item.getZmenaGrafiky());

@@ -55,9 +55,11 @@ public class CastObceConvertor extends AbstractSaveConvertor<CastObce> {
     private static final String SQL_INSERT = "INSERT INTO rn_cast_obce "
             + "(nazev, nespravny, obec_kod, mluv_char_pad_2, mluv_char_pad_3, "
             + "mluv_char_pad_4, mluv_char_pad_5, mluv_char_pad_6, "
-            + "mluv_char_pad_7, id_trans_ruian, zmena_grafiky, plati_od, "
+            + "mluv_char_pad_7, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "zmena_grafiky, plati_od, "
             + "nz_id_globalni, definicni_bod, hranice, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
             + "%FUNCTION%(?), ?, ?)";
     /**
      * SQL statement for update of existing item.
@@ -66,7 +68,9 @@ public class CastObceConvertor extends AbstractSaveConvertor<CastObce> {
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, "
             + "mluv_char_pad_2 = ?, mluv_char_pad_3 = ?, mluv_char_pad_4 = ?, "
             + "mluv_char_pad_5 = ?, mluv_char_pad_6 = ?, mluv_char_pad_7 = ?, "
-            + "id_trans_ruian = ?, zmena_grafiky = ?, plati_od = ?, "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "zmena_grafiky = ?, plati_od = ?, "
             + "nz_id_globalni = ?, definicni_bod = %FUNCTION%(?), "
             + "hranice = %FUNCTION%(?), datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
@@ -77,9 +81,11 @@ public class CastObceConvertor extends AbstractSaveConvertor<CastObce> {
     private static final String SQL_INSERT_NO_GIS = "INSERT INTO rn_cast_obce "
             + "(nazev, nespravny, obec_kod, mluv_char_pad_2, mluv_char_pad_3, "
             + "mluv_char_pad_4, mluv_char_pad_5, mluv_char_pad_6, "
-            + "mluv_char_pad_7, id_trans_ruian, zmena_grafiky, plati_od, "
+            + "mluv_char_pad_7, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "zmena_grafiky, plati_od, "
             + "nz_id_globalni, datum_vzniku, kod) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
@@ -87,7 +93,9 @@ public class CastObceConvertor extends AbstractSaveConvertor<CastObce> {
             + "SET nazev = ?, nespravny = ?, obec_kod = ?, "
             + "mluv_char_pad_2 = ?, mluv_char_pad_3 = ?, mluv_char_pad_4 = ?, "
             + "mluv_char_pad_5 = ?, mluv_char_pad_6 = ?, mluv_char_pad_7 = ?, "
-            + "id_trans_ruian = ?, zmena_grafiky = ?, plati_od = ?, "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "zmena_grafiky = ?, plati_od = ?, "
             + "nz_id_globalni = ?, datum_vzniku = ?, item_timestamp = timezone('utc', now()), "
             + "deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -122,6 +130,9 @@ public class CastObceConvertor extends AbstractSaveConvertor<CastObce> {
         pstm.setString(index++, item.getMluvCharPad6());
         pstm.setString(index++, item.getMluvCharPad7());
         pstm.setLong(index++, item.getIdTransRuian());
+        pstm.setString(index++, item.getNazevUdaje());
+        pstmEx.setDate(index++, item.getOznacenoDne());
+        pstm.setString(index++, item.getOznacenoInfo());
         pstmEx.setBoolean(index++, item.getZmenaGrafiky());
         pstmEx.setDate(index++, item.getPlatiOd());
         pstm.setLong(index++, item.getNzIdGlobalni());
