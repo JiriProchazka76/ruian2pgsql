@@ -99,6 +99,6 @@ public class SpecialniCollectionConvertor extends AbstractConvertor {
 
     @Override
     public void finalizeBatch() throws SQLException {
-        // nothing to do here
+        convertor.finalizeBatch();
     }
 }
