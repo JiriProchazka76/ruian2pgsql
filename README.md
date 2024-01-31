@@ -105,6 +105,7 @@ ruian2pgsql is distributed under MIT license.
 * Batch processing for database inserts/updates
 * Decreases time to process file about 50%
 * use --batch-size to change size of batch, default value 1000
+* use --log-warnings to enable logging of unsupported elements
 
 ## Changelog
 ## Version 1.8.1
