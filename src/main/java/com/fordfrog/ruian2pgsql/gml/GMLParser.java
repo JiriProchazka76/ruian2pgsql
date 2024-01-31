@@ -23,9 +23,10 @@ package com.fordfrog.ruian2pgsql.gml;
 
 import com.fordfrog.ruian2pgsql.utils.Namespaces;
 import com.fordfrog.ruian2pgsql.utils.XMLUtils;
-import java.text.MessageFormat;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.text.MessageFormat;
 
 /**
  * GML parser.
@@ -100,7 +101,7 @@ public class GMLParser {
             throws XMLStreamException {
         Geometry geometry = parse(reader, endNamespace, endLocalName);
         if (geometry instanceof CurvedGeometry<?>) {
-            geometry = ((CurvedGeometry<Geometry>) geometry).linearize(precision);
+            geometry = ((CurvedGeometry<?>) geometry).linearize(precision);
         }
         return geometry;
     }
@@ -794,8 +795,6 @@ public class GMLParser {
      *
      * @param reader   XML stream reader
      * @param geometry parent geometry
-     *
-     * @return parsed line string
      *
      * @throws XMLStreamException Thrown if problem occurred while reading XML
      *                            stream.
