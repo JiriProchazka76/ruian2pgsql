@@ -26,6 +26,7 @@ import com.fordfrog.ruian2pgsql.utils.XMLUtils;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -161,8 +162,9 @@ public abstract class AbstractSaveConvertor<T> implements Convertor {
         final T item;
 
         try {
-            item = clazz.newInstance();
-        } catch (final IllegalAccessException | InstantiationException ex) {
+            item = clazz.getDeclaredConstructor().newInstance();
+        } catch (final IllegalAccessException | InstantiationException | NoSuchMethodException |
+                       InvocationTargetException ex) {
             throw new RuntimeException("Failed to instantiate class "
                     + clazz.getName(), ex);
         }
