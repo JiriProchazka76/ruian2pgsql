@@ -54,9 +54,9 @@ public class VuscConvertor extends AbstractSaveConvertor<Vusc> {
      * SQL statement for insertion of new item.
      */
     private static final String SQL_INSERT = "INSERT INTO rn_vusc "
-            + "(nazev, nespravny, regsoudr_kod, id_trans_ruian, nuts_lau, "
-            + "plati_od, nz_id_globalni, zmena_grafiky, nazev_udaje, "
-            + "oznaceno_dne, oznaceno_info, definicni_bod, "
+            + "(nazev, nespravny, regsoudr_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, nuts_lau, "
+            + "plati_od, nz_id_globalni, zmena_grafiky, definicni_bod, "
             + "hranice, datum_vzniku, kod) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, %FUNCTION%(?), "
             + "%FUNCTION%(?), ?, ?)";
     /**
@@ -64,9 +64,9 @@ public class VuscConvertor extends AbstractSaveConvertor<Vusc> {
      */
     private static final String SQL_UPDATE = "UPDATE rn_vusc "
             + "SET nazev = ?, nespravny = ?, regsoudr_kod = ?, "
-            + "id_trans_ruian = ?, nuts_lau = ?, plati_od = ?, "
-            + "nz_id_globalni = ?, zmena_grafiky = ?, nazev_udaje = ?, "
-            + "oznaceno_dne = ?, oznaceno_info = ?, "
+            + "id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "nuts_lau = ?, plati_od = ?, nz_id_globalni = ?, zmena_grafiky = ?, "
             + "definicni_bod = %FUNCTION%(?), hranice = %FUNCTION%(?), datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
@@ -74,18 +74,18 @@ public class VuscConvertor extends AbstractSaveConvertor<Vusc> {
      * SQL statement for insertion of new item.
      */
     private static final String SQL_INSERT_NO_GIS = "INSERT INTO rn_vusc "
-            + "(nazev, nespravny, regsoudr_kod, id_trans_ruian, nuts_lau, "
-            + "plati_od, nz_id_globalni, zmena_grafiky, nazev_udaje, "
-            + "oznaceno_dne, oznaceno_info, datum_vzniku, kod) "
+            + "(nazev, nespravny, regsoudr_kod, id_trans_ruian, "
+            + "nazev_udaje, oznaceno_dne, oznaceno_info, "
+            + "nuts_lau, plati_od, nz_id_globalni, zmena_grafiky, datum_vzniku, kod) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * SQL statement for update of existing item.
      */
     private static final String SQL_UPDATE_NO_GIS = "UPDATE rn_vusc "
-            + "SET nazev = ?, nespravny = ?, regsoudr_kod = ?, "
-            + "id_trans_ruian = ?, nuts_lau = ?, plati_od = ?, "
-            + "nz_id_globalni = ?, nazev_udaje = ?, oznaceno_dne = ?, "
-            + "oznaceno_info = ?, zmena_grafiky = ?, datum_vzniku = ?, "
+            + "SET nazev = ?, nespravny = ?, regsoudr_kod = ?, id_trans_ruian = ?, "
+            + "nazev_udaje = ?, oznaceno_dne = ?, oznaceno_info = ?, "
+            + "nuts_lau = ?, plati_od = ?, nz_id_globalni = ?, "
+            + "zmena_grafiky = ?, datum_vzniku = ?, "
             + "item_timestamp = timezone('utc', now()), deleted = false "
             + "WHERE kod = ? AND id_trans_ruian <= ?";
 
@@ -113,12 +113,12 @@ public class VuscConvertor extends AbstractSaveConvertor<Vusc> {
         pstmEx.setBoolean(index++, item.getNespravny());
         pstm.setInt(index++, item.getRegsoudrKod());
         pstm.setLong(index++, item.getIdTransRuian());
-        pstm.setString(index++, item.getNutsLau());
-        pstmEx.setDate(index++, item.getPlatiOd());
-        pstm.setLong(index++, item.getNzIdGlobalni());
         pstm.setString(index++, item.getNazevUdaje());
         pstmEx.setDate(index++, item.getOznacenoDne());
         pstm.setString(index++, item.getOznacenoInfo());
+        pstm.setString(index++, item.getNutsLau());
+        pstmEx.setDate(index++, item.getPlatiOd());
+        pstm.setLong(index++, item.getNzIdGlobalni());
         pstmEx.setBoolean(index++, item.getZmenaGrafiky());
 
         if (!Config.isNoGis()) {
