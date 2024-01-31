@@ -21,6 +21,8 @@
  */
 package com.fordfrog.ruian2pgsql.utils;
 
+import com.fordfrog.ruian2pgsql.Config;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
@@ -90,19 +92,22 @@ public class XMLUtils {
             final int indent) throws XMLStreamException {
         final String namespace = reader.getNamespaceURI();
         final String localName = reader.getLocalName();
-        final StringBuilder sbString = new StringBuilder(namespace.length()
-                + localName.length() + 50);
 
-        for (int i = 0; i < indent; i++) {
-            sbString.append("  ");
+        if (Config.isLogWarnings()) {
+            final StringBuilder sbString = new StringBuilder(namespace.length()
+                    + localName.length() + 50);
+
+            for (int i = 0; i < indent; i++) {
+                sbString.append("  ");
+            }
+
+            sbString.append("Warning: Ignoring unsupported element ");
+            sbString.append(namespace);
+            sbString.append(' ');
+            sbString.append(localName);
+
+            Log.write(sbString.toString());
         }
-
-        sbString.append("Warning: Ignoring unsupported element ");
-        sbString.append(namespace);
-        sbString.append(' ');
-        sbString.append(localName);
-
-        Log.write(sbString.toString());
 
         while (reader.hasNext()) {
             final int event = reader.next();

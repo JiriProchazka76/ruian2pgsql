@@ -85,6 +85,8 @@ parameters:
     --batch-size
             defines the size of a batch of records forwarded through the network to the database,
             default value 1000
+    --log-warnings
+            enables logging of unsupported elements
 
 ## To do
 

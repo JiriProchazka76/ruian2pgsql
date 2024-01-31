@@ -91,6 +91,7 @@ public class Config {
     private static boolean linearizeEWKT;
 
     private static int batchSize = 1000;
+    private static boolean logWarnings;
 
     /**
      * Getter for {@link #inputDirPath}.
@@ -352,6 +353,14 @@ public class Config {
 
     public static void setBatchSize(int batchSize) {
         Config.batchSize = batchSize;
+    }
+
+    public static boolean isLogWarnings() {
+        return logWarnings;
+    }
+
+    public static void setLogWarnings(boolean notLogWarnings) {
+        Config.logWarnings = logWarnings;
     }
 
     /**

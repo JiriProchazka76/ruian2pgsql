@@ -111,6 +111,8 @@ public class App {
                     i++;
                     Config.setBatchSize(Integer.valueOf(args[i]));
                     break;
+                case "--log-warnings":
+                    Config.setLogWarnings(true);
                 default:
                     throw new RuntimeException(
                             "Unsupported command line switch: " + args[i]);
