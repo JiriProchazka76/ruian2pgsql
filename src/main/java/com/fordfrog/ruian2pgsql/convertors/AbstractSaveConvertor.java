@@ -306,7 +306,6 @@ public abstract class AbstractSaveConvertor<T> implements Convertor {
         insertCounter = 0;
         if (pstmInsert != null) {
             pstmInsert.executeBatch();
-            //connection.commit();
         }
     }
 
@@ -336,7 +335,6 @@ public abstract class AbstractSaveConvertor<T> implements Convertor {
         updateCounter = 0;
         if (pstmUpdate != null) {
             pstmUpdate.executeBatch();
-            //connection.commit();
         }
     }
 
