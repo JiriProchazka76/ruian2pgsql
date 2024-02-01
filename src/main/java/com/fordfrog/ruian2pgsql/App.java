@@ -113,6 +113,7 @@ public class App {
                     break;
                 case "--log-warnings":
                     Config.setLogWarnings(true);
+                    break;
                 default:
                     throw new RuntimeException(
                             "Unsupported command line switch: " + args[i]);
